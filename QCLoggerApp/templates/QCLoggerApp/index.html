@@ -1,0 +1,19 @@
+<form action="" method="get">
+<label>质检员：</label>
+<select name="">
+    {% for e in employees %}
+        <option>{{e.name_text}}</option>
+    {% endfor %}
+    </ul>
+</select>
+</form>
+
+{% if employees %}
+    <ul>
+    {% for e in employees %}
+        <li><a href="/employees/{{ e.id }}/">{{ e.name_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>没有员工。</p>
+{% endif %}
