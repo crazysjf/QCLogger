@@ -15,3 +15,10 @@ def index(request):
     # = get_object_or_404(Question, pk=question_id)
     return render(request, 'QCLoggerApp/index.html', {'employees': employees})
 
+def log(request):
+    employees = Employee.objects.all()
+
+    #print ("logged")
+    return render(request, 'QCLoggerApp/index.html', {'employees': employees})
+
+    # output = ', '.join([e.name_text for e in employees])
