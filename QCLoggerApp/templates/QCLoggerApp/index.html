@@ -54,7 +54,7 @@
 <p>没有员工。</p>
 {% endif %}
 
-<form action="/log" method="post">
+<form action="{% url 'log'%}" method="post">
 {% csrf_token %}
    <label>唯一码 <span class="required">*</span></label>
    <input type="text" name="ucode" class="field-long" />

@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
+import logging
+logger = logging.getLogger("django")
 
 from django.http import HttpResponse
 
@@ -13,12 +15,10 @@ def index(request):
     # return HttpResponse(output)
     #
     # = get_object_or_404(Question, pk=question_id)
+    logger.debug('viewing index')
+
     return render(request, 'QCLoggerApp/index.html', {'employees': employees})
 
 def log(request):
-    employees = Employee.objects.all()
-
-    #print ("logged")
-    return render(request, 'QCLoggerApp/index.html', {'employees': employees})
-
-    # output = ', '.join([e.name_text for e in employees])
+    logger.debug(request.POST)
+    return HttpResponse(request.POST['ucode'])
