@@ -15,7 +15,7 @@ $(document).ready(function() {
         $.post('QCLogger/log/', requestData, function(data) {
             if (data['error']) {
                 // 数据重复
-
+                alert("唯一码重复:\n" + data['e-employee'] + "\n" + data['e-datetime'])
             } else {
                 var tr = '<tr><td>';
                 tr += data['ucode'];

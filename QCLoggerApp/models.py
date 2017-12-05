@@ -15,7 +15,7 @@ class Employee(models.Model):
 class Record(models.Model):
     employee = models.ForeignKey(Employee)
     ucode_text = models.CharField(db_index=True, unique=True, max_length=200) # 唯一码
-    date = models.DateTimeField('registering date', db_index=True)
+    datetime = models.DateTimeField('registering date', db_index=True)
 
     def __unicode__(self):
         return self.ucode_text

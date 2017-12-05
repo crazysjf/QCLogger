@@ -35,11 +35,14 @@ def log(request):
     r = Record()
     r.ucode_text = u
     r.employee = e
-    r.date = datetime.now()
+    r.datetime = datetime.now()
     try:
         r.save()
     except IntegrityError:
         resp['error'] = "duplicated entry"
+        resp['e-employee'] = e.name_text
+        r = Record.objects.get(ucode_text = u)
+        resp['e-datetime'] = r.datetime
     else:
         resp['ucode']     = u
        # resp['employee'] = e
