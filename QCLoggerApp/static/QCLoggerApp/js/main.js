@@ -13,13 +13,18 @@ $(document).ready(function() {
 
 
         $.post('QCLogger/log/', requestData, function(data) {
-            var tr = '<tr><td>';
-            tr += data['ucode'];
-            tr += '</td><td>';
-            tr += data['datetime'];
-            tr += '</td></tr>'
-            $('#ucode-table').prepend(tr)
-            $('#ucode-input').val("")
+            if (data['error']) {
+                // 数据重复
+
+            } else {
+                var tr = '<tr><td>';
+                tr += data['ucode'];
+                tr += '</td><td>';
+                tr += data['datetime'];
+                tr += '</td></tr>'
+                $('#ucode-table').prepend(tr)
+                $('#ucode-input').val("")
+            }
         });
 
        //$("#ucode-table").prepend('<tr><td>'+ $('#ucode-input').val() + '</td><td>'+'日期' + '</td></tr>');

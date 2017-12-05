@@ -6,7 +6,7 @@ from django.db import models
 # Create your models here.
 
 class Employee(models.Model):
-    name_text = models.CharField(max_length=200)
+    name_text = models.CharField(unique = True, max_length=200)
     reg_date = models.DateTimeField('registering date') # 注册日期
 
     def __unicode__(self):
@@ -14,8 +14,8 @@ class Employee(models.Model):
 
 class Record(models.Model):
     employee = models.ForeignKey(Employee)
-    ucode_text = models.CharField(max_length=200) # 唯一码
-    date = models.DateTimeField('registering date')
+    ucode_text = models.CharField(db_index=True, unique=True, max_length=200) # 唯一码
+    date = models.DateTimeField('registering date', db_index=True)
 
     def __unicode__(self):
         return self.ucode_text
