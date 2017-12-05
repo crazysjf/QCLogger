@@ -16,8 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include, url
+import QCLoggerApp.views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^$', QCLoggerApp.views.index),
     url(r'^QCLogger/', include('QCLoggerApp.urls')),
+    url(r'^admin/', admin.site.urls),
 ]
