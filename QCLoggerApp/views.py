@@ -19,6 +19,15 @@ def index(request):
 
     return render(request, 'QCLoggerApp/index.html', {'employees': employees})
 
+from django.views.decorators.csrf import csrf_exempt
+import json
+from datetime import datetime
+from django.core.serializers.json import DjangoJSONEncoder
+
+@csrf_exempt
 def log(request):
     logger.debug(request.POST)
-    return HttpResponse(request.POST['ucode'])
+    resp = dict(request.POST)   # 必须新建一个dict，否则无法修改
+    resp['datetime'] = datetime.now()
+    return HttpResponse(json.dumps(resp,cls=DjangoJSONEncoder), content_type="application/json")
+    #return HttpResponse(request.POST['ucode'])
