@@ -1,19 +1,17 @@
 
 $(document).ready(function() {
-    $('#letter-e a').click(function(event) {
-        event.preventDefault();
-        var requestData = {term: $(this).text()};
-        $.post('e.php', requestData, function(data) {
-            $('#dictionary').html(data);
-        });
-    });
     $('#ucode-input').bind('keypress',function(event){
-
       if(event.keyCode == "13") {
         event.preventDefault();
         var employee = $("#employee-select  option:selected").text();
-        var requestData = {ucode: $('#ucode-input').val(),
-        employee: employee }
+        var ucode = $('#ucode-input').val();
+        // 无输入则无动作
+        if (ucode == "")
+            return
+        var requestData = {ucode: ucode,
+                            employee: employee }
+
+
         $.post('QCLogger/log/', requestData, function(data) {
             var tr = '<tr><td>';
             tr += data['ucode'];

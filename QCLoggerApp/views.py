@@ -27,6 +27,15 @@ from django.core.serializers.json import DjangoJSONEncoder
 @csrf_exempt
 def log(request):
     logger.debug(request.POST)
+
+    e = Employee.objects.get(name_text = request.POST['employee'])
+    r = Record()
+    r.ucode_text = request.POST['ucode']
+    r.employee = e
+    r.date = datetime.now()
+    r.save()
+
+
     resp = dict(request.POST)   # 必须新建一个dict，否则无法修改
     resp['datetime'] = datetime.now()
     return HttpResponse(json.dumps(resp,cls=DjangoJSONEncoder), content_type="application/json")

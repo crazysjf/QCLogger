@@ -9,7 +9,7 @@ class Employee(models.Model):
     name_text = models.CharField(max_length=200)
     reg_date = models.DateTimeField('registering date') # 注册日期
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name_text
 
 class Record(models.Model):
@@ -17,5 +17,5 @@ class Record(models.Model):
     ucode_text = models.CharField(max_length=200) # 唯一码
     date = models.DateTimeField('registering date')
 
-    def __str__(self):
+    def __unicode__(self):
         return self.ucode_text
