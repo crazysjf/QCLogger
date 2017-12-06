@@ -8,6 +8,11 @@ $(document).ready(function() {
         // 无输入则无动作
         if (ucode == "")
             return
+        if (employee == "") {
+        	alert("请先选择质检员")
+        	return
+        }
+        
         var requestData = {ucode: ucode,
                             employee: employee }
 
@@ -18,6 +23,11 @@ $(document).ready(function() {
                 alert("唯一码重复:\n" + data['e-employee'] + "\n" + data['e-datetime'])
             } else {
                 $('#ucode-table').prepend(makeRows([data]))
+    			
+    			var totalDom = $("#ucode-table-total")
+    			var cnt = parseInt(totalDom.text()) + 1
+    			totalDom.text(cnt)
+
             }
             $('#ucode-input').val("")
         });
@@ -34,6 +44,7 @@ $(document).ready(function() {
             // 如果选择空，则清空列表
             if (employee == "") {
                 replaceTableBody([])
+                return
             }
 
 
@@ -46,6 +57,7 @@ $(document).ready(function() {
     function replaceTableBody(rList) {
     	var tb = '<tbody>' + makeRows(rList) + '</tbody>'
     	$("#ucode-table tbody").replaceWith(tb)
+    	$("#ucode-table-total").text(rList.length)
     }
 
     // 生成列表里面的行
