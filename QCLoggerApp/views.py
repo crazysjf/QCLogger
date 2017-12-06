@@ -40,8 +40,8 @@ def log(request):
         r.save()
     except IntegrityError:
         resp['error'] = "duplicated entry"
-        resp['e-employee'] = e.name_text
         r = Record.objects.get(ucode_text = u)
+        resp['e-employee'] = r.employee.name_text
         resp['e-datetime'] = r.datetime
     else:
         resp['ucode']     = u
@@ -50,3 +50,15 @@ def log(request):
 
     return HttpResponse(json.dumps(resp,cls=DjangoJSONEncoder), content_type="application/json")
     #return HttpResponse(request.POST['ucode'])
+
+def records(request):
+    eName = request.GET['employee']
+    e = Employee.objects.get(name_text = eName)
+    rs = e.record_set.all()
+    a = []
+    for r in rs:
+        a.append({"ucode": r.ucode_text,
+                  "datetime": r.datetime})
+    logger.debug(a)
+
+    return HttpResponse(json.dumps(a, cls=DjangoJSONEncoder), content_type="application/json")
