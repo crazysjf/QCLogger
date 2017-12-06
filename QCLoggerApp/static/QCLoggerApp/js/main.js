@@ -1,5 +1,12 @@
 
 $(document).ready(function() {
+    // 自动更新navbar的active按钮
+    $('.navbar-nav').find('a').each(function () {
+            if (this.href == document.location.href) {
+                $(this).parent().addClass('active'); // this.className = 'active';
+            }
+        });
+
     $('#ucode-input').bind('keypress',function(event){
       if(event.keyCode == "13") {
         event.preventDefault();
