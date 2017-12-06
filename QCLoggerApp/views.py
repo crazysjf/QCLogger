@@ -19,6 +19,9 @@ def index(request):
 
     return render(request, 'QCLoggerApp/index.html', {'employees': employees})
 
+def reports(request):
+    return render(request, 'QCLoggerApp/reports.html')
+
 from django.views.decorators.csrf import csrf_exempt
 import json
 from datetime import datetime
