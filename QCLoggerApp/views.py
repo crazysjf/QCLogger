@@ -51,10 +51,14 @@ def log(request):
     return HttpResponse(json.dumps(resp,cls=DjangoJSONEncoder), content_type="application/json")
     #return HttpResponse(request.POST['ucode'])
 
+from django.utils.timezone import now, timedelta
+
 def records(request):
     eName = request.GET['employee']
     e = Employee.objects.get(name_text = eName)
-    rs = e.record_set.all()
+    start = now().date()
+    end = start + timedelta(days=1)
+    rs = e.record_set.filter(datetime__range=(start, end)).order_by("-datetime")
     a = []
     for r in rs:
         a.append({"ucode": r.ucode_text,

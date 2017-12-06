@@ -18,13 +18,6 @@ $(document).ready(function() {
                 alert("唯一码重复:\n" + data['e-employee'] + "\n" + data['e-datetime'])
             } else {
                 $('#ucode-table').prepend(makeRows([data]))
-
-                //var tr = '<tr><td>';
-                //tr += data['ucode'];
-                //tr += '</td><td>';
-                //tr += data['datetime'];
-                //tr += '</td></tr>'
-                //$('#ucode-table').prepend(tr)
             }
             $('#ucode-input').val("")
         });
@@ -37,6 +30,12 @@ $(document).ready(function() {
     // 员工选择变化处理
     $("#employee-select").change(function(){
             var employee = $("#employee-select  option:selected").text();
+
+            // 如果选择空，则清空列表
+            if (employee == "") {
+                replaceTableBody([])
+            }
+
 
             var requestData = {employee: employee}
             $.get('QCLogger/records/', requestData, function(data) {
