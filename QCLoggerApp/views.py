@@ -20,7 +20,8 @@ def index(request):
     return render(request, 'QCLoggerApp/index.html', {'employees': employees})
 
 def reports(request):
-    return render(request, 'QCLoggerApp/reports.html')
+    employees = Employee.objects.all()
+    return render(request, 'QCLoggerApp/reports.html', {'employees': employees})
 
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -47,25 +48,54 @@ def log(request):
         resp['e-employee'] = r.employee.name_text
         resp['e-datetime'] = r.datetime
     else:
-        resp['ucode']     = u
-       # resp['employee'] = e
-        resp['datetime'] = datetime.now()
+        # 格式和records返回格式保持一致方便前端处理
+        resp['ucodeList']     = [u]
+        resp['employeeList'] = [e.name_text]
+        resp['datetimeList'] = [datetime.now()]
 
     return HttpResponse(json.dumps(resp,cls=DjangoJSONEncoder), content_type="application/json")
     #return HttpResponse(request.POST['ucode'])
 
 from django.utils.timezone import now, timedelta
 
-def records(request):
-    eName = request.GET['employee']
+# 返回用户的记录条数。如果没有指定时间，则时间为当天
+def recordCount(request):
+    eName           = request.GET.get('employee',False)
+    uCode           = request.GET.get('ucode',False)
+    datetimeStart   = request.GET.get('datetimeStart',False)
+    datetimeEnd     = request.GET.get('datetimeEnd',False)
+
+    if datetimeStart == False or datetimeEnd == False:
+        datetimeStart = now().date()
+        datetimeEnd = datetimeStart + timedelta(days=1)
+
     e = Employee.objects.get(name_text = eName)
-    start = now().date()
-    end = start + timedelta(days=1)
-    rs = e.record_set.filter(datetime__range=(start, end)).order_by("-datetime")
-    a = []
+    cnt = e.record_set.filter(datetime__range=(datetimeStart, datetimeEnd)).count()
+    return HttpResponse(json.dumps({"recordCount":cnt}, cls=DjangoJSONEncoder), content_type="application/json")
+
+def records(request):
+    eName           = request.GET.get('employee',False)
+    datetimeStart = request.GET.get('datetimeStart', False)
+    datetimeEnd = request.GET.get('datetimeEnd', False)
+    ucode           = request.GET.get('ucode',False)
+
+    #e = Employee.objects.get(name_text = eName)
+    if datetimeStart == False or datetimeEnd == False:
+        datetimeStart = now().date()
+        datetimeEnd = datetimeStart + timedelta(days=1)
+
+    rs = Record.objects.filter(employee__name_text = eName,datetime__range=(datetimeStart, datetimeEnd) ).order_by("-datetime")
+    #rs  = e.record_set.filter(datetime__range=(start, end)).order_by("-datetime")
+    employeeList = []
+    ucodeList = []
+    datetimeList = []
     for r in rs:
-        a.append({"ucode": r.ucode_text,
-                  "datetime": r.datetime})
-    logger.debug(a)
+        employeeList.append(r.employee.name_text)
+        ucodeList.append(r.ucode_text)
+        datetimeList.append(r.datetime)
+    a = {}
+    a['employeeList']   = employeeList
+    a['ucodeList']       = ucodeList
+    a['datetimeList']   = datetimeList
 
     return HttpResponse(json.dumps(a, cls=DjangoJSONEncoder), content_type="application/json")
