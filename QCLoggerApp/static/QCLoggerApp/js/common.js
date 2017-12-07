@@ -16,7 +16,7 @@ function makeRows(data) {
     ucodeList    = data['ucodeList']
     datetimeList = data['datetimeList']
     
-    for (var i=0; i<ucodeList.length; i++) {
+    for (var i  in ucodeList) {
         tr += '<tr><td>';
         tr += employeeList[i]
         tr += '</td><td>';
@@ -41,4 +41,10 @@ function insertRecordToTable(tableDiv, data) {
 function setRecordTableContent(tableDiv, data) {
 	$("span.total-cnt", tableDiv).text(data['ucodeList'].length)
 	$("table tbody", tableDiv).html(makeRows(data))
+}
+
+// 清除列表
+function clearRecordTable(tableDiv) {
+    $("span.total-cnt", tableDiv).text("")
+	$("table tbody", tableDiv).html("")
 }

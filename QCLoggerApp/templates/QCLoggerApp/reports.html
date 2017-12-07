@@ -18,7 +18,8 @@
 
     <div class="row">
         <div class="col-4">
-            <table class="summary-table">
+             <p>汇总：</p>
+            <table id="summary-table">
                 <thead>
                 <tr>
                     <th>质检员</th>
@@ -29,7 +30,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-4">
+        <div class="col">
             {% include "QCLoggerApp/_recordTable.html" %}
         </div>
     </div>

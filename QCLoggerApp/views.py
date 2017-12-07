@@ -75,8 +75,8 @@ def recordCount(request):
 
 def records(request):
     eName           = request.GET.get('employee',False)
-    datetimeStart = request.GET.get('datetimeStart', False)
-    datetimeEnd = request.GET.get('datetimeEnd', False)
+    datetimeStart   = request.GET.get('datetimeStart', False)
+    datetimeEnd     = request.GET.get('datetimeEnd', False)
     ucode           = request.GET.get('ucode',False)
 
     #e = Employee.objects.get(name_text = eName)
@@ -84,7 +84,15 @@ def records(request):
         datetimeStart = now().date()
         datetimeEnd = datetimeStart + timedelta(days=1)
 
-    rs = Record.objects.filter(employee__name_text = eName,datetime__range=(datetimeStart, datetimeEnd) ).order_by("-datetime")
+    objs = Record.objects
+    if ucode != "" :
+        objs = objs.filter(ucode_text__exact = ucode)
+
+    if eName != "":
+        objs = objs.filter(employee__name_text = eName)
+
+    rs = objs.filter(datetime__range=(datetimeStart, datetimeEnd)).order_by("-datetime")
+
     #rs  = e.record_set.filter(datetime__range=(start, end)).order_by("-datetime")
     employeeList = []
     ucodeList = []

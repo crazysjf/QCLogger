@@ -46,7 +46,7 @@ $(document).ready(function() {
 
             // 如果选择空，则清空列表
             if (employee == "") {
-                setRecordTableContent($("div.ucode-table"), [])
+				clearRecordTable()
                 return
             }
 
