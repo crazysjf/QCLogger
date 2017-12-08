@@ -29,6 +29,7 @@ $(document).ready(function() {
             if (data['error']) {
                 // 数据重复
                 showError("唯一码重复：" + data['e-employee'] + "，" + data['e-datetime'])
+                $('#ucode-input').select()
             } else {
             	// 唯一码正常
             	insertRecordToTable($("div.ucode-table"), data)
@@ -61,7 +62,9 @@ $(document).ready(function() {
     })
 
     function showError(msg) {
-		$('#errorAudio')[0].play()
+    	var a = $('#errorAudio')[0]
+    	a.currentTime = 0 // 音频重叠时后面的播放无效。流传这样有效，实际无效
+		a.play()
 		$("#error-info").text(msg)
     }
 
