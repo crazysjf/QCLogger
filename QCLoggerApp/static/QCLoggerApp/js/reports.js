@@ -1,10 +1,14 @@
 $(document).ready(function() {
     $("#search-button").click(function(event){
         event.preventDefault();
-        var employee = $("#employee-select  option:selected").text();
-        var ucode = $('#ucode-input').val();
-        var requestData = { ucode: ucode,
-                            employee: employee }
+        var employee 	= $("#employee-select  option:selected").text();
+        var startDate 	= $('#start-date-picker').val();
+        var endDate   	= $('#end-date-picker').val();
+        var ucode 		= $('#ucode-input').val();
+        var requestData = { employee: 	employee,
+                            startDate: 	startDate,
+                            endDate: 	endDate,
+                            ucode: 		ucode }
   		$.get('/QCLogger/records/', requestData, function(data) {
 			setRecordTableContent($("div.ucode-table"), data)
 
@@ -32,5 +36,24 @@ $(document).ready(function() {
 
 	    $("table#summary-table tbody").html(tr)
     }
+
+    var p = {
+    	dateFormat:"yy-mm-dd"
+    }
+
+    var a = [$("#start-date-picker"), $("#end-date-picker")]
+	for (var i in a) {
+		a[i].datepicker(p).attr("readonly","readonly")
+		a[i].val(getDateStr())
+	}
+	
+	function getDateStr() {
+		var date = new Date();
+		var year=date.getFullYear();
+		var month=date.getMonth()+1;
+		var day=date.getDate();
+		var str=year+'-'+month+'-'+day;
+		return str	
+	}
 })
 

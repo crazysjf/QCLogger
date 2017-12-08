@@ -57,6 +57,7 @@ def log(request):
     #return HttpResponse(request.POST['ucode'])
 
 from django.utils.timezone import now, timedelta
+from datetime import datetime
 
 # 返回用户的记录条数。如果没有指定时间，则时间为当天
 def recordCount(request):
@@ -74,15 +75,20 @@ def recordCount(request):
     return HttpResponse(json.dumps({"recordCount":cnt}, cls=DjangoJSONEncoder), content_type="application/json")
 
 def records(request):
-    eName           = request.GET.get('employee',False)
-    datetimeStart   = request.GET.get('datetimeStart', False)
-    datetimeEnd     = request.GET.get('datetimeEnd', False)
-    ucode           = request.GET.get('ucode',False)
+    eName           = request.GET.get('employee',"")
+    startDateStr       = request.GET.get('startDate', "")
+    endDateStr         = request.GET.get('endDate', "")
+    ucode           = request.GET.get('ucode', "")
 
+    startDate = 0
+    endDate = 0
     #e = Employee.objects.get(name_text = eName)
-    if datetimeStart == False or datetimeEnd == False:
-        datetimeStart = now().date()
-        datetimeEnd = datetimeStart + timedelta(days=1)
+    if startDateStr == "" or endDateStr == "":
+        startDate = now().date()
+        endDate = startDate + timedelta(days=1)
+    else:
+        startDate = datetime.strptime(startDateStr, '%Y-%m-%d')
+        endDate = datetime.strptime(endDateStr + " 23:59:59", '%Y-%m-%d %H:%M:%S')
 
     objs = Record.objects
     if ucode != "" :
@@ -91,7 +97,7 @@ def records(request):
     if eName != "":
         objs = objs.filter(employee__name_text = eName)
 
-    rs = objs.filter(datetime__range=(datetimeStart, datetimeEnd)).order_by("-datetime")
+    rs = objs.filter(datetime__range=(startDate, endDate)).order_by("-datetime")
 
     #rs  = e.record_set.filter(datetime__range=(start, end)).order_by("-datetime")
     employeeList = []
