@@ -29,8 +29,10 @@ $(document).ready(function() {
             if (data['error']) {
                 // 数据重复
                 alert("唯一码重复:\n" + data['e-employee'] + "\n" + data['e-datetime'])
+                $('#errorAudio')[0].play()
             } else {
             	insertRecordToTable($("div.ucode-table"), data)
+                $('#okAudio')[0].play()
             }
             $('#ucode-input').val("")
         });
@@ -56,5 +58,7 @@ $(document).ready(function() {
                 setRecordTableContent($("div.ucode-table"), data) 
             })
     })
+
+
 });
 
