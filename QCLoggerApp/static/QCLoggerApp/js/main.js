@@ -17,7 +17,7 @@ $(document).ready(function() {
         if (ucode == "")
             return
         if (employee == "") {
-        	alert("请先选择质检员")
+        	showError("请先选择质检员")
         	return
         }
         
@@ -28,13 +28,14 @@ $(document).ready(function() {
         $.post('/QCLogger/log/', requestData, function(data) {
             if (data['error']) {
                 // 数据重复
-                alert("唯一码重复:\n" + data['e-employee'] + "\n" + data['e-datetime'])
-                $('#errorAudio')[0].play()
+                showError("唯一码重复：" + data['e-employee'] + "，" + data['e-datetime'])
             } else {
+            	// 唯一码正常
             	insertRecordToTable($("div.ucode-table"), data)
+            	clearError()
                 $('#okAudio')[0].play()
+                $('#ucode-input').val("")
             }
-            $('#ucode-input').val("")
         });
 
        //$("#ucode-table").prepend('<tr><td>'+ $('#ucode-input').val() + '</td><td>'+'日期' + '</td></tr>');
@@ -59,6 +60,13 @@ $(document).ready(function() {
             })
     })
 
+    function showError(msg) {
+		$('#errorAudio')[0].play()
+		$("#error-info").text(msg)
+    }
 
+    function clearError(msg) {
+		$("#error-info").text("")
+    }
 });
 
