@@ -25,7 +25,7 @@ SECRET_KEY = '#*fa0_0xj*19b_flm+l&#tdy(82jlj9b$mhw)ozo_*sj4ji92e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'www.juicyminds.cc']
 
 
 # Application definition
@@ -117,7 +117,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
+SITE_ROOT = os.path.dirname(os.path.abspath(__file__))
+SITE_ROOT = os.path.abspath(os.path.join(SITE_ROOT, '../'))
+STATIC_ROOT = os.path.join(SITE_ROOT, 'collectedstatic')
 STATIC_URL = '/static/'
 
 LOGGING = {
