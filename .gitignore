@@ -2,3 +2,6 @@
 *.sqlite3
 *.pyc
 collectedstatic/
+*.log
+*.pid
+*.rdb

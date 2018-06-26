@@ -1,1 +1,2 @@
-uwsgi --ini /export/QCLogger/uwsgi/uwsgi.ini
+uwsgi --ini /export/script/QCLogger/uwsgi.ini
+
