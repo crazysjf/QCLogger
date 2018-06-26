@@ -7,6 +7,17 @@ $(document).ready(function() {
             }
         });
 
+    // 判断字符串是否全部为数字
+    function isAllNumber(s) {
+        for (var i = 0; i<s.length; i++) {
+            var c = s.charAt(i)
+            if (c<'0' || c >'9') {
+                return false
+            }
+        }
+        return true
+    }
+
     // 唯一码输入处理
     $('#ucode-input').bind('keypress',function(event){
       if(event.keyCode == "13") {
@@ -20,7 +31,14 @@ $(document).ready(function() {
         	showError("请先选择质检员")
         	return
         }
-        
+
+        // 唯一码长度判断：目前发现都为14位。放宽一点标准，允许范围为13-15位，全数字
+        if (ucode.length<13 || ucode.length>15 || !isAllNumber(ucode)) {
+            showError("唯一码格式错误")
+            return
+        }
+        console.log(ucode.length)
+
         var requestData = {ucode: ucode,
                             employee: employee }
 
