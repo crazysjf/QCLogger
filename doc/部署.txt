@@ -1,0 +1,29 @@
+# 步骤
+项目位于/export/QCLogger/
+
+./manage.py runserver 0.0.0.0:8000
+应该可以运行整个服务器。
+
+
+此时用uwsgi测试自己的项目应该是可以运行的：
+$ uwsgi --http :8000 --file QCLogger/wsgi.py --static-map=/static=static
+
+改用配置文件应该也可以运行：
+$ killall -9 uwsgi
+$ uwsgi --ini ./uwsgi/uwsgi.ini
+
+应该可以看到服务期正常运行，并且admin之类模块的静态文件加载也正常。
+如果不在乎静态文件性能，这样就可以运行了。如果需要改进静态文件性能，需要配合nginx使用。
+
+
+# uwsgi开机自动运行
+/etc/rc.local里面加入
+
+/usr/local/bin/uwsgi --ini /export/QCLogger/uwsgi/uwsgi.ini
+
+# nginx
+不使用nginx，太麻烦。直接用uwsgi运行。
+
+
+# 代码更新后的重新运行
+需要先执行 ./bin/deploy.sh
