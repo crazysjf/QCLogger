@@ -25,7 +25,7 @@ SECRET_KEY = '#*fa0_0xj*19b_flm+l&#tdy(82jlj9b$mhw)ozo_*sj4ji92e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'www.juicyminds.cc']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'www.juicyminds.cc', '10.1.1.162']
 
 
 # Application definition

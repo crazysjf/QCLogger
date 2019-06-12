@@ -1,2 +1,4 @@
-uwsgi --ini /export/script/QCLogger/uwsgi.ini
+rm ./uwsgi/uwsgi.log
+rm ./uwsgi/uwsgi.pid
+uwsgi --ini ./uwsgi/uwsgi.ini
 
